@@ -5,7 +5,7 @@ services:
     image: hub.docker.com/r/bettercap/bettercap:latest
     container_name: bettercap
     network_mode: host
-    cap_add:
+    environment:
       - NET_ADMIN
       - NET_RAW
     restart: on-failure
