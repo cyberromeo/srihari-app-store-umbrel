@@ -1,6 +1,10 @@
 version: '3.7'
 
 services:
+  app_proxy:
+    environment:
+      APP_HOST: srihari-bettercap
+      APP_PORT: 1405
   web:
     image: hub.docker.com/r/bettercap/bettercap:latest
     container_name: bettercap
