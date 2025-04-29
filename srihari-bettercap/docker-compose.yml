@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  bettercap:
+    image: https://hub.docker.com/r/bettercap/bettercap:latest
+    container_name: bettercap
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}./caplets:/opt/caplets
+    command: bettercap -iface enp5s0 -caplet /opt/caplets/startup.cap
