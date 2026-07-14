@@ -1,0 +1,59 @@
+version: "3.7"
+
+services:
+
+  app_proxy:
+    environment:
+      # <app-id>_<docker-service-name>_1 — Umbrel proxy → real web service
+      APP_HOST: trmnl-larapaper_app_1
+      APP_PORT: 8080
+      PROXY_AUTH_ADD: "false"
+
+  app:
+    image: ghcr.io/usetrmnl/larapaper:latest
+    restart: unless-stopped
+    environment:
+      # Laravel encryption key. Format MUST be base64: + 32 random bytes
+      # base64-encoded (openssl rand -base64 32). Override via .env for a
+      # per-install key — the default below is valid but shared.
+      APP_KEY: ${APP_KEY:-base64:bq5Ga3qOCwqTOA5h0f+xlBfVHPbNg8ku71S4p2VMsuY=}
+      APP_ENV: production
+      APP_DEBUG: "false"
+      # Set to your Umbrel *.local URL after install so generated QR/links work.
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_TIMEZONE: ${APP_TIMEZONE:-UTC}
+      # SQLite DB — keep this override so the file lands inside the persisted
+      # /var/www/html/database/storage volume.
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/storage/database.sqlite
+      # Stores all use the bundled SQLite (no Redis/cache sidecar needed).
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      SESSION_DRIVER: database
+      # Serversideup autorun runs migrations + storage:link + caches on start.
+      AUTORUN_ENABLED: "true"
+      # Behind Umbrel's reverse proxy.
+      SSL_MODE: "off"
+      FORCE_HTTPS: "0"
+      TRUSTED_PROXIES: "*"
+      PHP_OPCACHE_ENABLE: "1"
+      # Allow the first user to register (the admin). Set to 0 after install
+      # to lock down registration.
+      REGISTRATION_ENABLED: ${REGISTRATION_ENABLED:-1}
+      TRMNL_PROXY_BASE_URL: https://trmnl.app
+      TRMNL_PROXY_REFRESH_MINUTES: "15"
+    volumes:
+      # SQLite database + migrations state lives here.
+      - database:/var/www/html/database/storage
+      # Generated screen images cache.
+      - storage:/var/www/html/storage/app/public/images/generated
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  database:
+  storage:

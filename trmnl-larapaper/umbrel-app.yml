@@ -1,0 +1,32 @@
+manifestVersion: 1
+id: trmnl-larapaper
+name: LaraPaper
+tagline: Self-hosted TRMNL server with recipe support (PHP/Laravel)
+icon: https://trmnl.com/images/brand/icons/icon--black.svg
+category: Automation
+version: "1.0.0"
+port: 8080
+description: >-
+  LaraPaper is a self-hostable, community-driven TRMNL server (BYOS) built with PHP/Laravel. It manages TRMNL e-ink display devices and generates screens via native plugins, 150+ community recipes, 700+ TRMNL catalog recipes, raw markup, or the API. It can also act as a proxy for the native TRMNL cloud service (Core) for hybrid setups.
+
+
+  Bundled SQLite means no separate database or cache containers are needed. The container auto-runs migrations on first boot. Registration is enabled by default — the first user to register becomes the admin. Supports TRMNL OG/X, SeeedStudio, reTerminal, custom ESP32, KOReader/Kindle/Nook/Kobo e-readers, Android, and Raspberry Pi.
+
+
+  After install, open the web UI and register your first account, then point your TRMNL device at this server (firmware 1.4.6+ → "Custom Server" during WiFi setup).
+developer: bnussbau
+website: https://github.com/usetrmnl/larapaper
+submitter: TRMNL
+submission: https://github.com/psrih/umbrel-terminus
+repo: https://github.com/usetrmnl/larapaper
+support: https://github.com/usetrmnl/larapaper/issues
+gallery:
+  - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-screenshot.png
+  - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-screenshot-dark.png
+  - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-devices.jpeg
+releaseNotes: >-
+  Initial Umbrel Community App Store packaging of LaraPaper 0.39.0 (single container, bundled SQLite, auto-migrating).
+dependencies: []
+path: ""
+defaultUsername: "admin@example.com"
+defaultPassword: "admin@example.com"
