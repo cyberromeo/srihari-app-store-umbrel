@@ -2,7 +2,7 @@ manifestVersion: 1
 id: trmnl-terminus
 name: Terminus
 tagline: Self-hosted TRMNL device server — own your e-ink display cloud
-icon: https://raw.githubusercontent.com/usetrmnl/terminus/main/app/assets/images/logo/salmon.svg
+icon: https://trmnl.com/images/brand/icons/icon--black.svg
 category: Automation
 version: "1.0.0"
 port: 2300
@@ -21,9 +21,9 @@ submission: https://github.com/psrih/umbrel-terminus
 repo: https://github.com/usetrmnl/terminus
 support: https://github.com/usetrmnl/terminus/issues
 gallery:
-  - https://raw.githubusercontent.com/usetrmnl/terminus/main/app/assets/images/logo/with_label.svg
-  - https://raw.githubusercontent.com/usetrmnl/terminus/main/app/assets/images/logo/black.svg
-  - https://raw.githubusercontent.com/usetrmnl/terminus/main/app/assets/images/logo/white.svg
+  - https://trmnl.com/assets/og/framework-a6b63bee.png
+  - https://wbrowar.us-east-1.linodeobjects.com/article/featured/_800x418_crop_center-center_82_none/trmnl-fuji-schedule.jpeg?mtime=1741805850
+  - https://i0.wp.com/notenoughtech.com/wp-content/uploads/2025/09/TRMNL-5.jpg?resize=696%2C372&ssl=1
 releaseNotes: >-
   Initial Umbrel Community App Store packaging of Terminus (upstream :latest). Boots the official ghcr.io/usetrmnl/terminus image alongside PostgreSQL 18.4 and Valkey 9; web service runs DB migrations on first start.
 dependencies: []

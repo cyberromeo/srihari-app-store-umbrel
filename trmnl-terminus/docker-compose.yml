@@ -1,3 +1,5 @@
+version: "3.7"
+
 services:
 
   app_proxy:
@@ -5,6 +7,7 @@ services:
       # <app-id>_<docker-service-name>_1 — Umbrel proxy → real web service
       APP_HOST: trmnl-terminus_web_1
       APP_PORT: 2300
+      PROXY_AUTH_ADD: "false"
 
   web:
     image: ghcr.io/usetrmnl/terminus:latest
@@ -17,7 +20,11 @@ services:
       API_URI: ${API_URI:-http://localhost:2300}
       # Hanami session/CSRF/cookie secret. MUST be stable across restarts.
       # Override via .env — the inline default is an insecure placeholder.
-      APP_SECRET: ${APP_SECRET:-development_insecure_secret_change_me}
+      # Hanami session/CSRF/cookie secret. MUST be stable across restarts and
+      # >= 64 chars (Hanami Settings enforces min_size: 64). Override via .env
+      # with a long random string for production — this placeholder only exists
+      # so the stack boots standalone.
+      APP_SECRET: ${APP_SECRET:-insecure_development_secret_placeholder_00000000000000000000000000000000000000000000000000000000000}
       # Run db migrate + asset compile on this container only.
       APP_SETUP: ${APP_SETUP:-true}
       DATABASE_URL: postgres://${DATABASE_USER:-terminus}:${DATABASE_PASSWORD:-development_insecure_password}@database:${DATABASE_PORT:-5432}/${DATABASE_NAME:-terminus}
@@ -48,7 +55,7 @@ services:
     environment:
       HANAMI_PORT: ${HANAMI_PORT:-2300}
       API_URI: ${API_URI:-http://localhost:2300}
-      APP_SECRET: ${APP_SECRET:-development_insecure_secret_change_me}
+      APP_SECRET: ${APP_SECRET:-insecure_development_secret_placeholder_00000000000000000000000000000000000000000000000000000000000}
       DATABASE_URL: postgres://${DATABASE_USER:-terminus}:${DATABASE_PASSWORD:-development_insecure_password}@database:${DATABASE_PORT:-5432}/${DATABASE_NAME:-terminus}
       KEYVALUE_URL: redis://:${KEYVALUE_PASSWORD:-development_insecure_password}@keyvalue:${KEYVALUE_PORT:-6379}/${KEYVALUE_DATABASE:-0}
     restart: unless-stopped
@@ -95,7 +102,7 @@ services:
     volumes:
       - keyvalue-data:/data
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -p ${KEYVALUE_PORT:-6379} -a ${KEYVALUE_PASSWORD:-development_insecure_password} ping | grep -q PONG"]
+      test: ["CMD-SHELL", "redis-cli -p ${KEYVALUE_PORT:-6379} ping || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
