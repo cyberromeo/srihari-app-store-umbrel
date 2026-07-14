@@ -1,13 +1,14 @@
 # Umbrel Community App Store — TRMNL
 
-This repository packages two TRMNL Build-Your-Own-Server (BYOS) applications as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
+This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
 
-| App            | Upstream                                                                  | Stack                         | Port  |
-|----------------|---------------------------------------------------------------------------|-------------------------------|-------|
-| **Terminus**   | [usetrmnl/terminus](https://github.com/usetrmnl/terminus) — Ruby/Hanami   | Terminus + PostgreSQL + Valkey | 2300  |
-| **LaraPaper**  | [usetrmnl/larapaper](https://github.com/usetrmnl/larapaper) — PHP/Laravel  | LaraPaper (bundled SQLite)    | 8080  |
+| App            | Upstream                                                                  | Stack                              | Port  |
+|----------------|---------------------------------------------------------------------------|------------------------------------|-------|
+| **Terminus**   | [usetrmnl/terminus](https://github.com/usetrmnl/terminus) — Ruby/Hanami   | Terminus + PostgreSQL + Valkey      | 2300  |
+| **LaraPaper**  | [usetrmnl/larapaper](https://github.com/usetrmnl/larapaper) — PHP/Laravel  | LaraPaper (bundled SQLite)         | 8080  |
+| **Inker**      | [usetrmnl/inker](https://github.com/usetrmnl/inker) — TypeScript/NestJS   | Inker (bundled SQLite + Chromium)  | 80    |
 
-Both let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data.
+All three let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data.
 
 ## Add this app store to Umbrel
 
@@ -56,9 +57,27 @@ Two volumes are persisted:
 
 ---
 
+## Inker
+
+The `trmnl-inker` app is an **all-in-one container** (nginx + NestJS backend + bundled SQLite + headless Chromium for BMP rendering, no external DB/cache):
+
+| Service | Image                  | Purpose                                      |
+|---------|------------------------|----------------------------------------------|
+| `app`   | `wojooo/inker:latest` | E-ink device manager + screen designer on port `80`, bundled SQLite, auto-migrates schema on startup. |
+
+One volume is persisted:
+- `uploads` → `/app/uploads` (SQLite database `inker.db` + user uploads: screens, firmware, widgets, captures, drawings)
+
+**First-run setup:** open the Inker web UI and log in with the default PIN **`1111`**. Change it via the `ADMIN_PIN` env var for any real deployment. Note: `ADMIN_PIN` must be quoted in YAML (leading zeros are stripped otherwise) — the compose file already quotes it.
+
+**Configuration:** see [`trmnl-inker/.env.example`](trmnl-inker/.env.example) for `ADMIN_PIN`, `TZ`, `DEFAULT_TIMEZONE` overrides.
+
+---
+
 ## Source
 
 - Terminus upstream: https://github.com/usetrmnl/terminus — MIT
 - LaraPaper upstream: https://github.com/usetrmnl/larapaper — MIT
+- Inker upstream: https://github.com/usetrmnl/inker — AGPL-3.0
 
 This packaging repo is unaffiliated with the upstream maintainers; it only wraps their published container images for Umbrel.
