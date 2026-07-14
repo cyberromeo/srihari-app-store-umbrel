@@ -1,0 +1,108 @@
+services:
+
+  app_proxy:
+    environment:
+      # <app-id>_<docker-service-name>_1 — Umbrel proxy → real web service
+      APP_HOST: trmnl-terminus_web_1
+      APP_PORT: 2300
+
+  web:
+    image: ghcr.io/usetrmnl/terminus:latest
+    init: true
+    environment:
+      # Hanami/Puma port. Also the port Umbrel exposes via app_proxy.
+      HANAMI_PORT: ${HANAMI_PORT:-2300}
+      # Public URL devices use to reach this server. Override to your
+      # *.local umbrella URL after install.
+      API_URI: ${API_URI:-http://localhost:2300}
+      # Hanami session/CSRF/cookie secret. MUST be stable across restarts.
+      # Override via .env — the inline default is an insecure placeholder.
+      APP_SECRET: ${APP_SECRET:-development_insecure_secret_change_me}
+      # Run db migrate + asset compile on this container only.
+      APP_SETUP: ${APP_SETUP:-true}
+      DATABASE_URL: postgres://${DATABASE_USER:-terminus}:${DATABASE_PASSWORD:-development_insecure_password}@database:${DATABASE_PORT:-5432}/${DATABASE_NAME:-terminus}
+      # Note leading colon before password — Valkey "password-only" URL form.
+      KEYVALUE_URL: redis://:${KEYVALUE_PASSWORD:-development_insecure_password}@keyvalue:${KEYVALUE_PORT:-6379}/${KEYVALUE_DATABASE:-0}
+    restart: unless-stopped
+    volumes:
+      # Same named volume mounted at two paths so chromium can render fonts.
+      - web-fonts:/app/public/fonts
+      - web-fonts:/usr/share/fonts/terminus
+      - web-uploads:/app/public/uploads
+    depends_on:
+      database:
+        condition: service_healthy
+      keyvalue:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:${HANAMI_PORT:-2300}/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+
+  worker:
+    image: ghcr.io/usetrmnl/terminus:latest
+    init: true
+    command: bundle exec sidekiq -r ./config/sidekiq.rb
+    environment:
+      HANAMI_PORT: ${HANAMI_PORT:-2300}
+      API_URI: ${API_URI:-http://localhost:2300}
+      APP_SECRET: ${APP_SECRET:-development_insecure_secret_change_me}
+      DATABASE_URL: postgres://${DATABASE_USER:-terminus}:${DATABASE_PASSWORD:-development_insecure_password}@database:${DATABASE_PORT:-5432}/${DATABASE_NAME:-terminus}
+      KEYVALUE_URL: redis://:${KEYVALUE_PASSWORD:-development_insecure_password}@keyvalue:${KEYVALUE_PORT:-6379}/${KEYVALUE_DATABASE:-0}
+    restart: unless-stopped
+    volumes:
+      - web-fonts:/app/public/fonts
+      - web-fonts:/usr/share/fonts/terminus
+      - web-uploads:/app/public/uploads
+    depends_on:
+      web:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f sidekiq"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+
+  database:
+    image: postgres:18.4-alpine
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-terminus}
+      POSTGRES_DB: ${DATABASE_NAME:-terminus}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-development_insecure_password}
+    restart: unless-stopped
+    volumes:
+      # Upstream mounts /var/lib/postgresql (not /var/lib/postgresql/data).
+      - database-data:/var/lib/postgresql
+    command: ["postgres", "-p", "${DATABASE_PORT:-5432}"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-terminus} -d ${DATABASE_NAME:-terminus} -p ${DATABASE_PORT:-5432}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  keyvalue:
+    image: valkey/valkey:9-alpine
+    command: >
+      valkey-server
+      --requirepass ${KEYVALUE_PASSWORD:-development_insecure_password}
+      --maxmemory 512mb
+      --maxmemory-policy noeviction
+      --port ${KEYVALUE_PORT:-6379}
+    restart: unless-stopped
+    volumes:
+      - keyvalue-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -p ${KEYVALUE_PORT:-6379} -a ${KEYVALUE_PASSWORD:-development_insecure_password} ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 2s
+
+volumes:
+  database-data:
+  keyvalue-data:
+  web-fonts:
+  web-uploads:

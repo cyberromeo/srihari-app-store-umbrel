@@ -1,0 +1,6 @@
+# Build artifacts / local secrets
+.env
+*.local
+
+# UmbrelOS metadata (do not commit if you sync back to a fork)
+.DS_Store
