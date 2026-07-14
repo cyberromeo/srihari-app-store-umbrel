@@ -5,9 +5,9 @@ tagline: Self-hosted e-ink device manager with drag-and-drop screen designer
 icon: https://trmnl.com/images/brand/icons/icon--black.svg
 category: Automation
 version: "1.0.0"
-port: 80
+port: 8090
 description: >-
-  Inker is a self-hosted e-ink device management server for the homelab community. It works with TRMNL devices (firmware 1.7.8+) and any BYOD e-ink display. Design screens with a drag-and-drop widget editor, build custom widgets from JSON/RSS sources with JavaScript transformations, run playlists, and integrate homelab tools like Grafana panels.
+  Inker is a self-hosted e-ink display management server for the homelab community. It works with TRMNL devices (firmware 1.7.8+) and any BYOD e-ink display. Design screens with a drag-and-drop widget editor, build custom widgets from JSON/RSS data sources with JavaScript transformations, run playlists, and integrate homelab tools like Grafana panels.
 
 
   Built with TypeScript/React/Prisma. All-in-one Docker container with bundled SQLite, headless Chromium for BMP rendering, and nginx — no external database or cache containers needed. Schema migrations apply automatically on startup.

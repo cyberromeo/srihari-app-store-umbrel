@@ -6,7 +6,7 @@ This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications a
 |----------------|---------------------------------------------------------------------------|------------------------------------|-------|
 | **Terminus**   | [usetrmnl/terminus](https://github.com/usetrmnl/terminus) — Ruby/Hanami   | Terminus + PostgreSQL + Valkey      | 2300  |
 | **LaraPaper**  | [usetrmnl/larapaper](https://github.com/usetrmnl/larapaper) — PHP/Laravel  | LaraPaper (bundled SQLite)         | 8080  |
-| **Inker**      | [usetrmnl/inker](https://github.com/usetrmnl/inker) — TypeScript/NestJS   | Inker (bundled SQLite + Chromium)  | 80    |
+| **Inker**      | [usetrmnl/inker](https://github.com/usetrmnl/inker) — TypeScript/NestJS   | Inker (bundled SQLite + Chromium)  | 8090  |
 
 All three let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data.
 
@@ -63,7 +63,7 @@ The `trmnl-inker` app is an **all-in-one container** (nginx + NestJS backend + b
 
 | Service | Image                  | Purpose                                      |
 |---------|------------------------|----------------------------------------------|
-| `app`   | `wojooo/inker:latest` | E-ink device manager + screen designer on port `80`, bundled SQLite, auto-migrates schema on startup. |
+| `app`   | `wojooo/inker:latest` | E-ink device manager + screen designer (container port `80`, Umbrel port `8090`), bundled SQLite, auto-migrates schema on startup. |
 
 One volume is persisted:
 - `uploads` → `/app/uploads` (SQLite database `inker.db` + user uploads: screens, firmware, widgets, captures, drawings)

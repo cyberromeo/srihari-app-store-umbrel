@@ -20,8 +20,9 @@ services:
       DEFAULT_TIMEZONE: ${DEFAULT_TIMEZONE:-UTC}
       # Allow Umbrel's reverse proxy origin.
       CORS_ORIGINS: "*"
-      # App advertised external port (informational; container listens on :80).
-      INKER_PORT: "80"
+      # App advertised external port (informational; container listens on :80
+      # and Umbrel's app_proxy fronts it on the umbrel-app.yml port: 8090).
+      INKER_PORT: "8090"
     volumes:
       # SQLite database (/app/uploads/inker.db) + user uploads live here.
       - uploads:/app/uploads
