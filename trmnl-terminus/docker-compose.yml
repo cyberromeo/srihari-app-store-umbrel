@@ -17,7 +17,7 @@ services:
       HANAMI_PORT: ${HANAMI_PORT:-2300}
       # Public URL devices use to reach this server. Override to your
       # *.local umbrella URL after install.
-      API_URI: ${API_URI:-http://127.0.0.1:2300}
+      API_URI: ${API_URI:-http://umbrel.local:2300}
       # Hanami session/CSRF/cookie secret. MUST be stable across restarts.
       # Override via .env — the inline default is an insecure placeholder.
       # Hanami session/CSRF/cookie secret. MUST be stable across restarts and
@@ -54,7 +54,7 @@ services:
     command: bundle exec sidekiq -r ./config/sidekiq.rb
     environment:
       HANAMI_PORT: ${HANAMI_PORT:-2300}
-      API_URI: ${API_URI:-http://127.0.0.1:2300}
+      API_URI: ${API_URI:-http://umbrel.local:2300}
       APP_SECRET: ${APP_SECRET:-insecure_development_secret_placeholder_00000000000000000000000000000000000000000000000000000000000}
       DATABASE_URL: postgres://${DATABASE_USER:-terminus}:${DATABASE_PASSWORD:-development_insecure_password}@database:${DATABASE_PORT:-5432}/${DATABASE_NAME:-terminus}
       KEYVALUE_URL: redis://:${KEYVALUE_PASSWORD:-development_insecure_password}@keyvalue:${KEYVALUE_PORT:-6379}/${KEYVALUE_DATABASE:-0}
