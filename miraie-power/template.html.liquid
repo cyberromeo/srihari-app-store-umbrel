@@ -65,6 +65,14 @@
       color: #666;
       margin-top: 2px;
     }
+    .sub-value {
+      font-size: 16px;
+      margin-top: 8px;
+    }
+    .sub-label {
+      font-size: 11px;
+      color: #888;
+    }
     .bar-list {
       display: flex;
       flex-direction: column;
@@ -78,7 +86,7 @@
       font-size: 12px;
     }
     .bar-label {
-      width: 55px;
+      width: 45px;
       text-align: right;
       font-weight: bold;
     }
@@ -96,7 +104,7 @@
       background: #c00;
     }
     .bar-value {
-      width: 50px;
+      width: 45px;
       font-size: 11px;
       font-weight: bold;
     }
@@ -123,9 +131,6 @@
     .day-bar-label {
       font-size: 8px;
       color: #666;
-      transform: rotate(-45deg);
-      transform-origin: center;
-      white-space: nowrap;
       margin-top: 4px;
     }
     .footer {
@@ -151,69 +156,39 @@
     </div>
 
     <div class="sections">
-      <!-- Monthly -->
+      <!-- Monthly: source_1 = [{"power": float, "month": "MMYYYY"}, ...] -->
       <div class="section">
-        <div class="section-title">Monthly</div>
+        <div class="section-title">This Month</div>
         {% if source_1 %}
-          {% assign monthly = source_1 %}
-          {% if monthly.power %}
-            <div class="big-value">{{ monthly.power | round: 1 }}</div>
-            <div class="big-unit">kWh</div>
-          {% elsif monthly.consumption %}
-            <div class="big-value">{{ monthly.consumption | round: 1 }}</div>
-            <div class="big-unit">kWh</div>
-          {% elsif monthly.total %}
-            <div class="big-value">{{ monthly.total | round: 1 }}</div>
-            <div class="big-unit">kWh</div>
-          {% elsif monthly.data %}
-            {% assign monthly_total = 0 %}
-            {% for item in monthly.data %}
-              {% if item.power %}{% assign monthly_total = monthly_total | plus: item.power %}{% elsif item.consumption %}{% assign monthly_total = monthly_total | plus: item.consumption %}{% elsif item.energy %}{% assign monthly_total = monthly_total | plus: item.energy %}{% endif %}
-            {% endfor %}
-            <div class="big-value">{{ monthly_total | round: 1 }}</div>
-            <div class="big-unit">kWh total</div>
-          {% else %}
-            <div class="big-value">{{ monthly | round: 1 }}</div>
-            <div class="big-unit">kWh</div>
+          {% assign monthly_total = 0 %}
+          {% for item in source_1 %}
+            {% if item.power %}{% assign monthly_total = monthly_total | plus: item.power %}{% endif %}
+          {% endfor %}
+          <div class="big-value">{{ monthly_total | round: 1 }}</div>
+          <div class="big-unit">kWh (Jan-Jul 2026)</div>
+          {% assign latest_month = source_1 | last %}
+          {% if latest_month.power %}
+            <div class="sub-value">{{ latest_month.power | round: 1 }} kWh</div>
+            <div class="sub-label">Current month</div>
           {% endif %}
-        {% else %}
-          <div class="error">No data</div>
-        {% endif %}
-      </div>
-
-      <!-- Weekly -->
-      <div class="section">
-        <div class="section-title">Weekly</div>
-        {% if source_2 %}
-          {% assign weekly = source_2 %}
-          {% if weekly.data %}
-            {% assign weekly_items = weekly.data %}
-          {% else %}
-            {% assign weekly_items = weekly %}
-          {% endif %}
-          <div class="bar-list">
-            {% for item in weekly_items limit: 6 %}
-              {% assign power_val = 0 %}
-              {% if item.power %}{% assign power_val = item.power %}{% elsif item.consumption %}{% assign power_val = item.consumption %}{% elsif item.energy %}{% assign power_val = item.energy %}{% elsif item.value %}{% assign power_val = item.value %}{% endif %}
-              {% assign bar_pct = power_val | times: 1.0 %}
-              {% if item.date %}
-                {% assign label = item.date | slice: 0, 5 %}
-              {% elsif item.day %}
-                {% assign label = item.day %}
-              {% elsif item.label %}
-                {% assign label = item.label %}
+          {% assign max_month = 0 %}
+          {% for item in source_1 %}
+            {% if item.power > max_month %}{% assign max_month = item.power %}{% endif %}
+          {% endfor %}
+          <div class="bar-list" style="margin-top: 8px;">
+            {% for item in source_1 %}
+              {% if max_month > 0 %}
+                {% assign month_pct = item.power | divided_by: max_month | times: 100 %}
               {% else %}
-                {% assign label = forloop.index %}
+                {% assign month_pct = 0 %}
               {% endif %}
-              <!-- Max for scaling: assume 20 kWh as reasonable weekly range -->
-              {% assign bar_width = power_val | divided_by: 20.0 | times: 100 %}
-              {% if bar_width > 100 %}{% assign bar_width = 100 %}{% endif %}
+              {% assign month_label = item.month | slice: 0, 2 %}
               <div class="bar-row">
-                <div class="bar-label">{{ label }}</div>
+                <div class="bar-label">{{ month_label }}</div>
                 <div class="bar-track">
-                  <div class="bar-fill{% if power_val > 10 %} red{% endif %}" style="width: {{ bar_width | round }}%"></div>
+                  <div class="bar-fill" style="width: {{ month_pct | round }}%"></div>
                 </div>
-                <div class="bar-value">{{ power_val | round: 1 }}</div>
+                <div class="bar-value">{{ item.power | round: 1 }}</div>
               </div>
             {% endfor %}
           </div>
@@ -222,42 +197,55 @@
         {% endif %}
       </div>
 
-      <!-- Daily -->
+      <!-- Weekly: source_2 = [{"power": float, "week": "DDMMYYYY"}, ...] -->
+      <div class="section">
+        <div class="section-title">Weekly</div>
+        {% if source_2 %}
+          {% assign week_max = 0 %}
+          {% for item in source_2 %}
+            {% if item.power > week_max %}{% assign week_max = item.power %}{% endif %}
+          {% endfor %}
+          <div class="bar-list">
+            {% for item in source_2 %}
+              {% if week_max > 0 %}
+                {% assign week_pct = item.power | divided_by: week_max | times: 100 %}
+              {% else %}
+                {% assign week_pct = 0 %}
+              {% endif %}
+              {% assign week_label = item.week | slice: 0, 2 %}
+              <div class="bar-row">
+                <div class="bar-label">{{ week_label }}</div>
+                <div class="bar-track">
+                  <div class="bar-fill{% if item.power > 60 %} red{% endif %}" style="width: {{ week_pct | round }}%"></div>
+                </div>
+                <div class="bar-value">{{ item.power | round: 1 }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="error">No data</div>
+        {% endif %}
+      </div>
+
+      <!-- Daily: source_3 = [{"power": float, "day": "DDMMYYYY"}, ...] -->
       <div class="section">
         <div class="section-title">Daily (7 days)</div>
         {% if source_3 %}
-          {% assign daily = source_3 %}
-          {% if daily.data %}
-            {% assign daily_items = daily.data %}
-          {% else %}
-            {% assign daily_items = daily %}
-          {% endif %}
+          {% assign daily_max = 0 %}
+          {% for item in source_3 %}
+            {% if item.power > daily_max %}{% assign daily_max = item.power %}{% endif %}
+          {% endfor %}
+          {% assign daily_threshold = daily_max | divided_by: 2 %}
           <div class="daily-chart">
-            {% assign daily_max = 0 %}
-            {% for item in daily_items limit: 7 %}
-              {% assign dv = 0 %}
-              {% if item.power %}{% assign dv = item.power %}{% elsif item.consumption %}{% assign dv = item.consumption %}{% elsif item.energy %}{% assign dv = item.energy %}{% elsif item.value %}{% assign dv = item.value %}{% endif %}
-              {% if dv > daily_max %}{% assign daily_max = dv %}{% endif %}
-            {% endfor %}
-
-            {% assign daily_threshold = daily_max | divided_by: 2 %}
-            {% for item in daily_items limit: 7 %}
-              {% assign dv = 0 %}
-              {% if item.power %}{% assign dv = item.power %}{% elsif item.consumption %}{% assign dv = item.consumption %}{% elsif item.energy %}{% assign dv = item.energy %}{% elsif item.value %}{% assign dv = item.value %}{% endif %}
+            {% for item in source_3 %}
               {% if daily_max > 0 %}
-                {% assign bar_h = dv | divided_by: daily_max | times: 100 %}
+                {% assign bar_h = item.power | divided_by: daily_max | times: 100 %}
               {% else %}
                 {% assign bar_h = 0 %}
               {% endif %}
-              {% if item.date %}
-                {% assign dlabel = item.date | slice: 0, 2 %}
-              {% elsif item.day %}
-                {% assign dlabel = item.day | slice: 0, 2 %}
-              {% else %}
-                {% assign dlabel = forloop.index %}
-              {% endif %}
+              {% assign dlabel = item.day | slice: 0, 2 %}
               <div class="day-bar">
-                <div class="day-bar-fill{% if dv > daily_threshold %} red{% endif %}" style="height: {{ bar_h | round }}%"></div>
+                <div class="day-bar-fill{% if item.power > daily_threshold %} red{% endif %}" style="height: {{ bar_h | round }}%"></div>
                 <div class="day-bar-label">{{ dlabel }}</div>
               </div>
             {% endfor %}
