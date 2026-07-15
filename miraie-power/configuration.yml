@@ -3,7 +3,7 @@ name: "panasonic-miraie-power"
 label: "MirAIe Power Consumption"
 description: "Power consumption dashboard for Panasonic MirAIe AC device (36ff8e5467b2). Fetches monthly, weekly, and daily power data from the MirAIe API."
 mode: "refresh"
-kind: "api"
+kind: "poll"
 tags:
   - "energy"
   - "panasonic"
