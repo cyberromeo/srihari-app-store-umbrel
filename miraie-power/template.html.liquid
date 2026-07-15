@@ -240,6 +240,7 @@
               {% if dv > daily_max %}{% assign daily_max = dv %}{% endif %}
             {% endfor %}
 
+            {% assign daily_threshold = daily_max | divided_by: 2 %}
             {% for item in daily_items limit: 7 %}
               {% assign dv = 0 %}
               {% if item.power %}{% assign dv = item.power %}{% elsif item.consumption %}{% assign dv = item.consumption %}{% elsif item.energy %}{% assign dv = item.energy %}{% elsif item.value %}{% assign dv = item.value %}{% endif %}
@@ -256,7 +257,7 @@
                 {% assign dlabel = forloop.index %}
               {% endif %}
               <div class="day-bar">
-                <div class="day-bar-fill{% if dv > daily_max | divided_by: 2 %} red{% endif %}" style="height: {{ bar_h | round }}%"></div>
+                <div class="day-bar-fill{% if dv > daily_threshold %} red{% endif %}" style="height: {{ bar_h | round }}%"></div>
                 <div class="day-bar-label">{{ dlabel }}</div>
               </div>
             {% endfor %}
