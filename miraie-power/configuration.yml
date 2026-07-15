@@ -12,7 +12,7 @@ tags:
 static_body: {}
 fields: []
 data: {}
-unit: "minutes"
+unit: "minute"
 interval: 15
 days: []
 last_day_of_month: false
