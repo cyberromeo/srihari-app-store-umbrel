@@ -1,0 +1,40 @@
+version: "1.0.0"
+name: "panasonic-miraie-power"
+label: "MirAIe Power Consumption"
+description: "Power consumption dashboard for Panasonic MirAIe AC device (36ff8e5467b2). Fetches monthly, weekly, and daily power data from the MirAIe API."
+mode: "refresh"
+kind: "api"
+tags:
+  - "energy"
+  - "panasonic"
+  - "miraie"
+  - "power"
+unit: "minutes"
+interval: 15
+last_day_of_month: false
+start_at: "2026-07-15T00:00:00+00:00"
+exchanges:
+  - verb: "get"
+    template: "https://app.miraie.in/simplifi/v1/powerConsumption/devices/36ff8e5467b2?grain=Monthly&startDate=012026&endDate=072026"
+    headers:
+      Authorization: "Bearer 5627234a-129e-46be-b318-240d06871671"
+      Content-Type: "application/json"
+      Accept: "*/*"
+      User-Agent: "MirAIe/1.4.10 (com.panasonic.in.miraie; build:16; iOS 27.0.0) Alamofire/5.11.2"
+      Accept-Language: "en-IN;q=1.0"
+  - verb: "get"
+    template: "https://app.miraie.in/simplifi/v1/powerConsumption/devices/36ff8e5467b2?grain=Weekly&startDate=24052026&endDate=05072026"
+    headers:
+      Authorization: "Bearer 5627234a-129e-46be-b318-240d06871671"
+      Content-Type: "application/json"
+      Accept: "*/*"
+      User-Agent: "MirAIe/1.4.10 (com.panasonic.in.miraie; build:16; iOS 27.0.0) Alamofire/5.11.2"
+      Accept-Language: "en-IN;q=1.0"
+  - verb: "get"
+    template: "https://app.miraie.in/simplifi/v1/powerConsumption/devices/36ff8e5467b2?grain=Daily&startDate=20062026&endDate=26062026"
+    headers:
+      Authorization: "Bearer 5627234a-129e-46be-b318-240d06871671"
+      Content-Type: "application/json"
+      Accept: "*/*"
+      User-Agent: "MirAIe/1.4.10 (com.panasonic.in.miraie; build:16; iOS 27.0.0) Alamofire/5.11.2"
+      Accept-Language: "en-IN;q=1.0"
