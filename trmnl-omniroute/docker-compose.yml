@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: omniroute_web_1
+      APP_HOST: trmnl-omniroute_web_1
       APP_PORT: 20128
       PROXY_AUTH_ADD: "false"
 

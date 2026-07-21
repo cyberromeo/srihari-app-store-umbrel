@@ -89,7 +89,7 @@ One volume is persisted:
 
 **First-run setup:** open the OmniRoute web UI from the umbrelOS app tile to access the dashboard and configure your AI providers. The dashboard runs on port `20128` via the proxy, and the API is directly exposed on port `20129`.
 
-**Configuration:** port bindings and origins are configurable via a `.env` file. See [`omniroute/.env.example`](omniroute/.env.example) for defaults.
+**Configuration:** port bindings and origins are configurable via a `.env` file. See [`trmnl-omniroute/.env.example`](trmnl-omniroute/.env.example) for defaults.
 
 ---
 
