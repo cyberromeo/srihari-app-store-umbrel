@@ -26,8 +26,8 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "20129:20129"
-      - "20132:20132"
+      - "${API_PORT:-20129}:${API_PORT:-20129}"
+      - "${LIVE_WS_PORT:-20132}:${LIVE_WS_PORT:-20132}"
     environment:
       - DATA_DIR=${DATA_DIR:-/app/data}
       - PORT=${PORT:-20128}
