@@ -1,0 +1,27 @@
+manifestVersion: 1
+id: omniroute
+name: OmniRoute
+tagline: The Free AI Gateway
+category: Automation
+version: "3.8.47"
+port: 20128
+description: >-
+  Never stop coding. Connect every AI tool to 250 providers — 90+ free — through one endpoint.
+
+  Plug Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini. Auto-fallback.
+
+  RTK + Caveman compression saves 15–95% tokens. Never hit limits.
+developer: diegosouzapw
+website: https://omniroute.online
+submitter: umbrel
+submission: https://github.com/psrih/umbrel-terminus
+repo: https://github.com/diegosouzapw/OmniRoute
+support: https://discord.gg/EkzRkpzKYt
+gallery:
+  - https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/docs/screenshots/MainOmniRoute.png
+releaseNotes: >-
+  Initial Umbrel Community App Store packaging of OmniRoute.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

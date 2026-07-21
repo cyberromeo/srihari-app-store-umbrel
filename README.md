@@ -1,14 +1,15 @@
-# Umbrel Community App Store — TRMNL
+# Umbrel Community App Store — TRMNL & OmniRoute
 
-This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
+This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications and the OmniRoute AI Gateway as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
 
 | App            | Upstream                                                                  | Stack                              | Port  |
 |----------------|---------------------------------------------------------------------------|------------------------------------|-------|
+| **OmniRoute**  | [diegosouzapw/OmniRoute](https://github.com/diegosouzapw/OmniRoute) — TS  | OmniRoute + Redis                  | 20128 |
 | **Terminus**   | [usetrmnl/terminus](https://github.com/usetrmnl/terminus) — Ruby/Hanami   | Terminus + PostgreSQL + Valkey      | 2300  |
 | **LaraPaper**  | [usetrmnl/larapaper](https://github.com/usetrmnl/larapaper) — PHP/Laravel  | LaraPaper (bundled SQLite)         | 8080  |
 | **Inker**      | [usetrmnl/inker](https://github.com/usetrmnl/inker) — TypeScript/NestJS   | Inker (bundled SQLite + Chromium)  | 8090  |
 
-All three let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data.
+The TRMNL apps let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data, while OmniRoute provides a powerful self-hosted AI gateway.
 
 ## Add this app store to Umbrel
 
@@ -16,7 +17,7 @@ In the umbrelOS UI:
 
 1. Open **Settings → Community App Stores → Add**.
 2. Enter this repository's GitHub URL.
-3. Once the store appears (listed as **TRMNL App Store**), browse it and install either **Terminus** or **LaraPaper**.
+3. Once the store appears, browse it and install any of the available apps.
 
 ---
 
@@ -74,10 +75,29 @@ One volume is persisted:
 
 ---
 
+## OmniRoute
+
+The `omniroute` app provides the OmniRoute AI Gateway:
+
+| Service | Image                                | Purpose                                 |
+|---------|--------------------------------------|-----------------------------------------|
+| `web`   | `diegosouzapw/omniroute:latest-web`  | OmniRoute dashboard (port `20128`) and API (port `20129`). Includes Chromium for web-cookie providers. |
+| `redis` | `docker.io/library/redis:7-alpine`   | Redis backend for rate limiting.        |
+
+One volume is persisted:
+- `omniroute-data` → `/app/data` (OmniRoute data and configuration)
+
+**First-run setup:** open the OmniRoute web UI from the umbrelOS app tile to access the dashboard and configure your AI providers. The dashboard runs on port `20128` via the proxy, and the API is directly exposed on port `20129`.
+
+**Configuration:** port bindings and origins are configurable via a `.env` file. See [`omniroute/.env.example`](omniroute/.env.example) for defaults.
+
+---
+
 ## Source
 
 - Terminus upstream: https://github.com/usetrmnl/terminus — MIT
 - LaraPaper upstream: https://github.com/usetrmnl/larapaper — MIT
 - Inker upstream: https://github.com/usetrmnl/inker — AGPL-3.0
+- OmniRoute upstream: https://github.com/diegosouzapw/OmniRoute — MIT
 
 This packaging repo is unaffiliated with the upstream maintainers; it only wraps their published container images for Umbrel.
