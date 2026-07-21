@@ -23,7 +23,9 @@ services:
     image: diegosouzapw/omniroute:latest-web
     restart: unless-stopped
     stop_grace_period: 40s
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false
     depends_on:
       redis:
         condition: service_healthy
