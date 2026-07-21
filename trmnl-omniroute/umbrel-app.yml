@@ -2,6 +2,7 @@ manifestVersion: 1
 id: trmnl-omniroute
 name: OmniRoute
 tagline: The Free AI Gateway
+icon: https://unpkg.com/lucide-static@0.428.0/icons/globe.svg
 category: Automation
 version: "3.8.47"
 port: 20128
