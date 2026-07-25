@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+
+  app:
+    image: soulteary/cronicle:${CRONICLE_VERSION:-latest}
+    restart: unless-stopped
+    hostname: cronicle
+    ports:
+      - "3012:3012"
+    volumes:
+      - data:/opt/cronicle/data
+      - logs:/opt/cronicle/logs
+      - plugins:/opt/cronicle/plugins
+    environment:
+      TZ: ${TZ:-Asia/Kolkata}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3012/api/app/ping || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  data:
+  logs:
+  plugins:

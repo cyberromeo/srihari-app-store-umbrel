@@ -1,0 +1,40 @@
+manifestVersion: 1
+id: trmnl-cronicle
+name: Cronicle
+tagline: Distributed task scheduler and runner with web UI
+icon: https://raw.githubusercontent.com/jhuckaby/Cronicle/master/htdocs/images/icon-192.png
+category: Automation
+version: "0.9.80"
+port: 3012
+description: >-
+  Cronicle is a multi-server task scheduler and runner, with a web based
+  front-end UI. It handles both scheduled, repeating and on-demand jobs,
+  targeting any number of worker servers, with real-time stats and live
+  log viewer.
+
+
+  Features: single or multi-server setup, automated failover, auto-discovery
+  of nearby servers, real-time job status with live log viewer, plugins in
+  any language, schedule events in multiple timezones, CPU/memory tracking,
+  historical stats with graphs, web hooks, and a REST API.
+
+
+  After install, open the web UI and log in with admin / admin. Change the
+  password immediately via My Account.
+developer: Joseph Huckaby
+website: https://cronicle.net
+submitter: TRMNL
+submission: https://github.com/psrih/umbrel-terminus
+repo: https://github.com/jhuckaby/Cronicle
+support: https://github.com/jhuckaby/Cronicle/issues
+gallery:
+  - https://pixlcore.com/software/cronicle/screenshots-new/home.png
+  - https://pixlcore.com/software/cronicle/screenshots-new/schedule.png
+  - https://pixlcore.com/software/cronicle/screenshots-new/job-details-complete.png
+releaseNotes: >-
+  Initial Umbrel Community App Store packaging of Cronicle 0.9.80
+  (soulteary/docker-cronicle image, proxy-free, persistent data/logs/plugins).
+dependencies: []
+path: ""
+defaultUsername: "admin"
+defaultPassword: "admin"
