@@ -2,12 +2,16 @@ version: "3.7"
 
 services:
 
+  app_proxy:
+    environment:
+      APP_HOST: trmnl-cronicle_app_1
+      APP_PORT: 3012
+      PROXY_AUTH_ADD: "false"
+
   app:
     image: soulteary/cronicle:${CRONICLE_VERSION:-latest}
     restart: unless-stopped
     hostname: cronicle
-    ports:
-      - "3012:3012"
     volumes:
       - data:/opt/cronicle/data
       - logs:/opt/cronicle/logs
