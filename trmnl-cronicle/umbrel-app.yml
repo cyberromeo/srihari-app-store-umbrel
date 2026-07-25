@@ -2,7 +2,7 @@ manifestVersion: 1
 id: trmnl-cronicle
 name: Cronicle
 tagline: Distributed task scheduler and runner with web UI
-icon: https://raw.githubusercontent.com/jhuckaby/Cronicle/master/htdocs/images/logo-128.png
+icon: https://media.theresanaiforthat.com/icons/chronicle.svg
 category: Automation
 version: "0.9.80"
 port: 3012
