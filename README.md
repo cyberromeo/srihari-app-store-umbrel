@@ -27,8 +27,8 @@ The `trmnl-terminus` app runs these Docker Compose services:
 
 | Service    | Image                              | Purpose                                          |
 |------------|------------------------------------|--------------------------------------------------|
-| `web`      | `ghcr.io/usetrmnl/terminus:latest` | Hanami/Puma web server on port `2300` (runs DB migrations on first boot via `APP_SETUP: true`). |
-| `worker`   | `ghcr.io/usetrmnl/terminus:latest` | Sidekiq background jobs (firmware sync, screen rendering, etc.). |
+| `web`      | `ghcr.io/usetrmnl/terminus:0.67.0` | Hanami/Puma web server on port `2300` (runs DB migrations on first boot via `APP_SETUP: true`). |
+| `worker`   | `ghcr.io/usetrmnl/terminus:0.67.0` | Sidekiq background jobs (firmware sync, screen rendering, etc.). |
 | `database` | `postgres:18.4-alpine`             | PostgreSQL 18.4 database.                         |
 | `keyvalue` | `valkey/valkey:9-alpine`           | Valkey 9 (Redis-compatible) cache + job queue.    |
 

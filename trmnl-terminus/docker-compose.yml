@@ -13,7 +13,7 @@ services:
   # extensions that fetch from HTTPS endpoints signed by a private CA work.
   # No-op when CERTIFICATE_URLS is empty — public CAs are already in the image.
   init-certificates:
-    image: ghcr.io/usetrmnl/terminus:latest
+    image: ghcr.io/usetrmnl/terminus:0.67.0
     user: root
     environment:
       CERTIFICATE_URLS: ${CERTIFICATE_URLS:-}
@@ -24,7 +24,7 @@ services:
     restart: on-failure:3
 
   web:
-    image: ghcr.io/usetrmnl/terminus:latest
+    image: ghcr.io/usetrmnl/terminus:0.67.0
     init: true
     environment:
       # Hanami/Puma port. Also the port Umbrel exposes via app_proxy.
@@ -70,7 +70,7 @@ services:
       start_period: 45s
 
   worker:
-    image: ghcr.io/usetrmnl/terminus:latest
+    image: ghcr.io/usetrmnl/terminus:0.67.0
     init: true
     command: bundle exec sidekiq -r ./config/sidekiq.rb
     environment:

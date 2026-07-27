@@ -4,7 +4,7 @@ name: Terminus
 tagline: Self-hosted TRMNL device server — own your e-ink display cloud
 icon: https://trmnl.com/images/brand/icons/icon--black.svg
 category: Automation
-version: "1.0.0"
+version: "0.67.0"
 port: 2300
 description: >-
   Terminus is the flagship TRMNL Build-Your-Own-Server (BYOS) application — a Ruby/Hanami web server that lets you manage TRMNL e-ink display devices on your own local network or hosted cloud.
@@ -25,7 +25,7 @@ gallery:
   - https://wbrowar.us-east-1.linodeobjects.com/article/featured/_800x418_crop_center-center_82_none/trmnl-fuji-schedule.jpeg?mtime=1741805850
   - https://i0.wp.com/notenoughtech.com/wp-content/uploads/2025/09/TRMNL-5.jpg?resize=696%2C372&ssl=1
 releaseNotes: >-
-  Initial Umbrel Community App Store packaging of Terminus (upstream :latest). Boots the official ghcr.io/usetrmnl/terminus image alongside PostgreSQL 18.4 and Valkey 9; web service runs DB migrations on first start.
+  Updated Terminus to v0.67.0 (ghcr.io/usetrmnl/terminus:0.67.0). Includes support for device button hardware commands, UI template source linking in log inspector, and updated runtime dependencies.
 dependencies: []
 path: ""
 defaultUsername: ""
