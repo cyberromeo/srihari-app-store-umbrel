@@ -45,10 +45,11 @@ services:
     volumes:
       # SQLite database + migrations state lives here.
       - database:/var/www/html/database/storage
+      # Default assets, including the scheduled-sleep image. This lets a custom
+      # storage/app/public/images/sleep.png survive container upgrades.
+      - image_assets:/var/www/html/storage/app/public/images
       # Generated screen images cache.
       - storage:/var/www/html/storage/app/public/images/generated
-      # Custom scheduled-sleep screen, managed from Umbrel app data.
-      - ${APP_DATA_DIR}/sleep.png:/var/www/html/storage/app/public/images/sleep.png
     healthcheck:
       test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/ || exit 1"]
       interval: 30s
@@ -58,4 +59,5 @@ services:
 
 volumes:
   database:
+  image_assets:
   storage:
