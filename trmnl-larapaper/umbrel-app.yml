@@ -4,7 +4,7 @@ name: LaraPaper
 tagline: Self-hosted TRMNL server with recipe support (PHP/Laravel)
 icon: https://trmnl.com/images/brand/icons/icon--black.svg
 category: Automation
-version: "0.39.1"
+version: "0.39.0"
 port: 8080
 description: >-
   LaraPaper is a self-hostable, community-driven TRMNL server (BYOS) built with PHP/Laravel. It manages TRMNL e-ink display devices and generates screens via native plugins, 150+ community recipes, 700+ TRMNL catalog recipes, raw markup, or the API. It can also act as a proxy for the native TRMNL cloud service (Core) for hybrid setups.
