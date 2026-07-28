@@ -15,11 +15,9 @@ services:
     command: >
       sh -c "rm -f /opt/cronicle/logs/cronicled.pid && exec node bin/docker-entrypoint.js"
     volumes:
-      # Keep Cronicle data, logs, and installed plugins accessible in Umbrel's
-      # app-data directory rather than Docker-only named volumes.
-      - ${APP_DATA_DIR}/data:/opt/cronicle/data
-      - ${APP_DATA_DIR}/logs:/opt/cronicle/logs
-      - ${APP_DATA_DIR}/plugins:/opt/cronicle/plugins
+      - data:/opt/cronicle/data
+      - logs:/opt/cronicle/logs
+      - plugins:/opt/cronicle/plugins
     environment:
       TZ: ${TZ:-Asia/Kolkata}
     healthcheck:
@@ -28,3 +26,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+
+volumes:
+  data:
+  logs:
+  plugins:
