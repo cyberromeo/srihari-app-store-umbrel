@@ -21,7 +21,7 @@ services:
       APP_DEBUG: "false"
       # Set to your Umbrel IP/hostname after install so generated QR/links work.
       APP_URL: ${APP_URL:-http://umbrel.local:8080}
-      APP_TIMEZONE: ${APP_TIMEZONE:-UTC}
+      APP_TIMEZONE: ${APP_TIMEZONE:-Asia/Kolkata}
       # SQLite DB — keep this override so the file lands inside the persisted
       # /var/www/html/database/storage volume.
       DB_CONNECTION: sqlite
