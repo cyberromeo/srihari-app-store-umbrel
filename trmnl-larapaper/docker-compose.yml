@@ -45,6 +45,9 @@ services:
     volumes:
       # SQLite database + migrations state lives here.
       - database:/var/www/html/database/storage
+      # Default assets, including the scheduled-sleep image. This lets a custom
+      # storage/app/public/images/sleep.png survive container upgrades.
+      - image_assets:/var/www/html/storage/app/public/images
       # Generated screen images cache.
       - storage:/var/www/html/storage/app/public/images/generated
     healthcheck:
@@ -56,4 +59,5 @@ services:
 
 volumes:
   database:
+  image_assets:
   storage:
