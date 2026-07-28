@@ -44,20 +44,13 @@ services:
       TRMNL_PROXY_REFRESH_MINUTES: "15"
     volumes:
       # SQLite database + migrations state lives here.
-      - database:/var/www/html/database/storage
-      # Default assets, including the scheduled-sleep image. This lets a custom
-      # storage/app/public/images/sleep.png survive container upgrades.
-      - image_assets:/var/www/html/storage/app/public/images
-      # Generated screen images cache.
-      - storage:/var/www/html/storage/app/public/images/generated
+      - ${APP_DATA_DIR}/database:/var/www/html/database/storage
+      # Public assets, default sleep image, and generated screen cache.
+      # sleep.png is available at ${APP_DATA_DIR}/images/sleep.png.
+      - ${APP_DATA_DIR}/images:/var/www/html/storage/app/public/images
     healthcheck:
       test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
-
-volumes:
-  database:
-  image_assets:
-  storage:
