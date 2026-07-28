@@ -44,7 +44,7 @@ services:
       TRMNL_PROXY_REFRESH_MINUTES: "15"
     volumes:
       # SQLite database + migrations state lives here.
-      - ${APP_DATA_DIR}/database:/var/www/html/database/storage
+      - database:/var/www/html/database/storage
       # Public assets, default sleep image, and generated screen cache.
       # sleep.png is available at ${APP_DATA_DIR}/images/sleep.png.
       - ${APP_DATA_DIR}/images:/var/www/html/storage/app/public/images
@@ -54,3 +54,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+
+volumes:
+  database:
