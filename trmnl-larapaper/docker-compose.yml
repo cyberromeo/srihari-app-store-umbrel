@@ -47,6 +47,8 @@ services:
       - database:/var/www/html/database/storage
       # Generated screen images cache.
       - storage:/var/www/html/storage/app/public/images/generated
+      # Custom scheduled-sleep screen, managed from Umbrel app data.
+      - ${APP_DATA_DIR}/sleep.png:/var/www/html/storage/app/public/images/sleep.png
     healthcheck:
       test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/ || exit 1"]
       interval: 30s
