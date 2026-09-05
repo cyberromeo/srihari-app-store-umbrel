@@ -9,7 +9,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   app:
-    image: soulteary/cronicle:latest
+    image: soulteary/cronicle:0.9.80
     restart: unless-stopped
     hostname: cronicle
     command: >

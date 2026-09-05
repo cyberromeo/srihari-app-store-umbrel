@@ -2,7 +2,7 @@ manifestVersion: 1
 id: trmnl-cronicle
 name: Cronicle
 tagline: Distributed task scheduler and runner with web UI
-icon: https://media.theresanaiforthat.com/icons/chronicle.svg
+icon: https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-cronicle/icon.png
 category: Automation
 version: "0.9.80"
 port: 3012
@@ -32,8 +32,10 @@ gallery:
   - https://pixlcore.com/software/cronicle/screenshots-new/schedule.png
   - https://pixlcore.com/software/cronicle/screenshots-new/job-details-complete.png
 releaseNotes: >-
-  Initial Umbrel Community App Store packaging of Cronicle 0.9.80
-  (soulteary/docker-cronicle image, proxy-free, persistent data/logs/plugins).
+  Cronicle stays on 0.9.80 (soulteary/cronicle:0.9.80) — that is still the newest build the packaged image publishes, so there is no app update in this round.
+
+
+  Only the store icon changed: it now uses Cronicle's own logo from jhuckaby/Cronicle, composited onto a solid tile, instead of a third-party CDN link that could disappear.
 dependencies: []
 path: ""
 defaultUsername: "admin"
