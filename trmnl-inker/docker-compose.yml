@@ -10,7 +10,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   app:
-    image: wojooo/inker:latest
+    image: wojooo/inker:0.6.0
     restart: unless-stopped
     environment:
       # Login PIN. MUST be quoted in YAML (leading zeros stripped otherwise).

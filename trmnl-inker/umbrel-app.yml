@@ -2,12 +2,12 @@ manifestVersion: 1
 id: trmnl-inker
 name: Inker
 tagline: Self-hosted e-ink device manager with drag-and-drop screen designer
-icon: https://trmnl.com/images/brand/icons/icon--black.svg
+icon: https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-inker/icon.svg
 category: Automation
-version: "1.0.0"
+version: "0.6.0"
 port: 8090
 description: >-
-  Inker is a self-hosted e-ink display management server for the homelab community. It works with TRMNL devices (firmware 1.7.8+) and any BYOD e-ink display. Design screens with a drag-and-drop widget editor, build custom widgets from JSON/RSS data sources with JavaScript transformations, run playlists, and integrate homelab tools like Grafana panels.
+  Inker is a self-hosted e-ink display management server for the homelab community. It works with TRMNL OG and TRMNL X devices (firmware 1.7.8+) and any BYOD e-ink display. Design screens with a drag-and-drop widget editor, build custom widgets from JSON/RSS data sources with JavaScript transformations, run playlists, and integrate homelab tools like Grafana panels.
 
 
   Built with TypeScript/React/Prisma. All-in-one Docker container with bundled SQLite, headless Chromium for BMP rendering, and nginx — no external database or cache containers needed. Schema migrations apply automatically on startup.
@@ -25,7 +25,13 @@ gallery:
   - https://raw.githubusercontent.com/usetrmnl/inker/main/docs/screenshots/sleep-screen-device.png
   - https://trmnl.com/assets/og/framework-a6b63bee.png
 releaseNotes: >-
-  Initial Umbrel Community App Store packaging of Inker 0.5.0 (single all-in-one container, bundled SQLite).
+  Packaged against Inker 0.6.0 (wojooo/inker:0.6.0). The store previously advertised 1.0.0, which was never an upstream release — this corrects the number so future Inker releases show up as updates.
+
+
+  0.6.0 adds TRMNL X (10.3") rendering at 1872x1404 with 16-level grayscale and automatic OG/X detection, a monthly Calendar widget with localized names and configurable week start, optional per-playlist touch-bar control on TRMNL X, and text wrapping in custom widget grid cells. Fixes: the Seeed OG DIY kit now receives a BMP instead of a PNG, and the false "firmware update available" notice is gone. Default widgets and device models are now re-seeded idempotently on every boot, so upgrades pick up newly shipped content without touching your devices, screens or playlists.
+
+
+  Note: PostgreSQL support was dropped upstream — Inker is SQLite-only, which is how this package already ran it, so no migration is needed here.
 dependencies: []
 path: ""
 defaultUsername: "admin"
