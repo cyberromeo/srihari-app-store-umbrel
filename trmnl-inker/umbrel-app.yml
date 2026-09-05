@@ -21,9 +21,9 @@ submission: https://github.com/psrih/umbrel-terminus
 repo: https://github.com/usetrmnl/inker
 support: https://github.com/usetrmnl/inker/issues
 gallery:
-  - https://raw.githubusercontent.com/usetrmnl/inker/main/docs/screenshots/night-sleep-settings.png
-  - https://raw.githubusercontent.com/usetrmnl/inker/main/docs/screenshots/sleep-screen-device.png
-  - https://trmnl.com/assets/og/framework-a6b63bee.png
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-inker/gallery/1.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-inker/gallery/2.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-inker/gallery/3.jpg
 releaseNotes: >-
   Packaged against Inker 0.6.0 (wojooo/inker:0.6.0). The store previously advertised 1.0.0, which was never an upstream release — this corrects the number so future Inker releases show up as updates.
 

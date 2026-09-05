@@ -124,6 +124,33 @@ The container's entrypoint clears a stale `cronicled.pid` before starting, which
 
 ---
 
+## Store assets
+
+Gallery images follow the convention used by the official Umbrel App Store
+(`getumbrel/umbrel-apps-gallery`): **exactly three images per app, 16:10, JPEG,
+RGB**, at 1440x900 — the 1x size the official store uses for apps like Home
+Assistant and Nextcloud. Each card is a brand-coloured backdrop, one short
+headline sentence, and a real screenshot inside a macOS-style browser window
+that bleeds off the bottom edge.
+
+They live in `<app>/gallery/{1,2,3}.jpg` and are referenced by raw URL, because
+community app stores supply `gallery:` and `icon:` as URLs rather than the bare
+filenames official packages use. 1440x900 was chosen over the newer 2880x1800
+because the upstream screenshots behind these cards top out around 1500–1920px
+wide; rendering at 2x would only upscale them.
+
+Icons are square and fully opaque, so nothing shows the wallpaper through the
+tile. Where a project's own logo is transparent or circular, it is composited
+onto a rounded tile and committed here; otherwise the manifest links the
+project's own icon at a pinned tag.
+
+Terminus is the one app without gallery cards. Its upstream repo publishes no
+UI screenshots, so its `gallery:` still points at TRMNL marketing and
+third-party blog images. Replacing them needs a screenshot from a running
+Terminus instance.
+
+---
+
 ## Source
 
 - Terminus upstream: https://github.com/usetrmnl/terminus — MIT

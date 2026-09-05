@@ -19,7 +19,9 @@ submission: https://github.com/psrih/umbrel-terminus
 repo: https://github.com/diegosouzapw/OmniRoute
 support: https://discord.gg/EkzRkpzKYt
 gallery:
-  - https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/docs/screenshots/MainOmniRoute.png
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-omniroute/gallery/1.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-omniroute/gallery/2.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-omniroute/gallery/3.jpg
 releaseNotes: >-
   Updated OmniRoute to 3.8.50 (diegosouzapw/omniroute:3.8.50-web), three releases on from 3.8.47. A very large upstream cycle: roughly 1,700 commits and 1,180 changelog entries from 248 contributors.
 

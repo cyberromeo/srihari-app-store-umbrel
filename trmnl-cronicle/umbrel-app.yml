@@ -28,9 +28,9 @@ submission: https://github.com/psrih/umbrel-terminus
 repo: https://github.com/jhuckaby/Cronicle
 support: https://github.com/jhuckaby/Cronicle/issues
 gallery:
-  - https://pixlcore.com/software/cronicle/screenshots-new/home.png
-  - https://pixlcore.com/software/cronicle/screenshots-new/schedule.png
-  - https://pixlcore.com/software/cronicle/screenshots-new/job-details-complete.png
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-cronicle/gallery/1.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-cronicle/gallery/2.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-cronicle/gallery/3.jpg
 releaseNotes: >-
   Packaging revision for the app icon. Cronicle itself is unchanged and still runs soulteary/cronicle:0.9.80 — the third digit moved to 0.9.81 only so umbrelOS offers the update and picks up the new icon.
 

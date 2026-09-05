@@ -21,9 +21,9 @@ submission: https://github.com/psrih/umbrel-terminus
 repo: https://github.com/usetrmnl/larapaper
 support: https://github.com/usetrmnl/larapaper/issues
 gallery:
-  - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-screenshot.png
-  - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-screenshot-dark.png
-  - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-devices.jpeg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-larapaper/gallery/1.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-larapaper/gallery/2.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-larapaper/gallery/3.jpg
 releaseNotes: >-
   Updated LaraPaper to 0.41.0 (ghcr.io/usetrmnl/larapaper:0.41.0), covering the 0.40.0 and 0.41.0 releases.
 
