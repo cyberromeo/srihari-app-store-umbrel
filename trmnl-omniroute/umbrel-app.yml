@@ -2,9 +2,9 @@ manifestVersion: 1
 id: trmnl-omniroute
 name: OmniRoute
 tagline: The Free AI Gateway
-icon: https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/public/apple-touch-icon.svg
+icon: https://raw.githubusercontent.com/diegosouzapw/OmniRoute/v3.8.50/public/apple-touch-icon.svg
 category: Automation
-version: "3.8.47"
+version: "3.8.50"
 port: 20128
 description: >-
   Never stop coding. Connect every AI tool to 250 providers — 90+ free — through one endpoint.
@@ -21,7 +21,16 @@ support: https://discord.gg/EkzRkpzKYt
 gallery:
   - https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/docs/screenshots/MainOmniRoute.png
 releaseNotes: >-
-  Initial Umbrel Community App Store packaging of OmniRoute.
+  Updated OmniRoute to 3.8.50 (diegosouzapw/omniroute:3.8.50-web), three releases on from 3.8.47. A very large upstream cycle: roughly 1,700 commits and 1,180 changelog entries from 248 contributors.
+
+
+  New: additional providers including X Search, DeepAI, Naga.ac, Novita, UnoRouter, Regolo AI, Soniox speech-to-text/text-to-speech, Poolside and Volcengine Ark; an A2A/OmniConductor bridge with agent card and dashboard panel; a Modality Bridge for vision, audio and video; the OmniRoute Radar signed free-model catalog; OCR routing via /v1/ocr; plugin lifecycle hooks such as onStreamComplete; and quota-only priority fallback for combo routing.
+
+
+  Fixes: SSE and translator correctness (tool-name casing, reasoning replay, thought signatures), combo and resilience routing, database migration collisions, Docker packaging, OAuth and credential health, translations across dozens of locales, and several security items including an SSRF in /v1/search and CVE dependency bumps.
+
+
+  Packaging: the bundled rate-limiter Redis moves from 7-alpine to 8.6.5-alpine and the image is now pinned rather than tracking latest-web, both matching upstream's compose file.
 dependencies: []
 path: ""
 defaultUsername: ""

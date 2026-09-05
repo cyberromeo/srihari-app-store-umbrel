@@ -8,7 +8,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   redis:
-    image: docker.io/library/redis:7-alpine
+    image: docker.io/library/redis:8.6.5-alpine
     restart: unless-stopped
     volumes:
       - redis-data:/data
@@ -20,7 +20,7 @@ services:
       retries: 3
 
   web:
-    image: diegosouzapw/omniroute:latest-web
+    image: diegosouzapw/omniroute:3.8.50-web
     restart: unless-stopped
     stop_grace_period: 40s
     env_file:
@@ -42,6 +42,12 @@ services:
       - LIVE_WS_HOST=${LIVE_WS_HOST:-0.0.0.0}
       - LIVE_WS_ALLOWED_ORIGINS=${LIVE_WS_ALLOWED_ORIGINS:-*}
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      # Serve the dashboard under a sub-path. Empty = root, which is what
+      # Umbrel's app_proxy expects; upstream added this in 3.8.50.
+      - OMNIROUTE_BASE_PATH=${OMNIROUTE_BASE_PATH:-}
+      # Node heap ceiling, not a reservation. Upstream raised this in 3.8.50
+      # because large provider catalogs could exhaust the default heap.
+      - NODE_OPTIONS=--max-old-space-size=2048
     volumes:
       - omniroute-data:/app/data
     healthcheck:
