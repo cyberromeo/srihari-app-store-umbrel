@@ -4,7 +4,7 @@ name: Cronicle
 tagline: Distributed task scheduler and runner with web UI
 icon: https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-cronicle/icon.png
 category: Automation
-version: "0.9.80"
+version: "0.9.81"
 port: 3012
 description: >-
   Cronicle is a multi-server task scheduler and runner, with a web based
@@ -32,10 +32,13 @@ gallery:
   - https://pixlcore.com/software/cronicle/screenshots-new/schedule.png
   - https://pixlcore.com/software/cronicle/screenshots-new/job-details-complete.png
 releaseNotes: >-
-  Cronicle stays on 0.9.80 (soulteary/cronicle:0.9.80) — that is still the newest build the packaged image publishes, so there is no app update in this round.
+  Packaging revision for the app icon. Cronicle itself is unchanged and still runs soulteary/cronicle:0.9.80 — the third digit moved to 0.9.81 only so umbrelOS offers the update and picks up the new icon.
 
 
-  Only the store icon changed: it now uses Cronicle's own logo from jhuckaby/Cronicle, composited onto a solid tile, instead of a third-party CDN link that could disappear.
+  The icon now uses Cronicle's own logo from jhuckaby/Cronicle, composited onto a solid tile, instead of a third-party CDN link that could disappear.
+
+
+  There is no newer Cronicle build to package: the image has not been rebuilt since June 2025, while upstream Cronicle is at 0.9.131.
 dependencies: []
 path: ""
 defaultUsername: "admin"
