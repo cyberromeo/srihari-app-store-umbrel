@@ -1,0 +1,56 @@
+manifestVersion: 1
+id: trmnl-vansrouter
+category: ai
+name: VansRouter
+version: "0.91.21"
+tagline: One endpoint for 40+ AI providers, with auto-fallback
+icon: https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-vansrouter/icon.svg
+description: >-
+  VansRouter puts a single OpenAI-, Anthropic- and Gemini-compatible endpoint in
+  front of 40+ AI providers and 100+ models, so your coding agents keep working
+  when one provider runs out of quota. Point Claude Code, Codex, Cursor, Cline,
+  Copilot, Antigravity, OpenCode, Gemini CLI or any OpenAI-compatible tool at
+  this one URL and let VansRouter pick a provider that still has capacity.
+
+
+  Highlights: automatic fallback down a subscription → cheap → free chain;
+  round-robin across multiple accounts per provider; per-provider circuit
+  breaker and quota tracking with monthly auto-reactivation; Token Saver (RTK,
+  Caveman and Ponytail) which compresses tool results to cut 20–40% of tokens
+  per request; per-API-key access control; combos for fallback, round-robin,
+  fusion and capacity routing; and request logs with cost and cache-hit stats.
+
+
+  First run: open the app and sign in with the password Umbrel shows on this
+  page, then change it under Settings. There is no username — the login is
+  password-only.
+
+
+  Using it from other machines: your agents need an API key. Create one under
+  Endpoint & Key in the dashboard, then point your tools at
+  http://umbrel.local:20130/v1 with that key. Requests arriving without a valid
+  key are rejected, which is why the key is not optional here even though it is
+  on a laptop install.
+
+
+  Not available in this package: the built-in Cloudflare and Tailscale tunnels,
+  and the MCP and CLI-import helpers. Those need to run commands on the host, so
+  they are deliberately unreachable through Umbrel's proxy. Use umbrelOS's own
+  remote access to get to the dashboard from outside your network.
+developer: Vanszs
+website: https://github.com/Vanszs/VansRouter
+dependencies: []
+repo: https://github.com/Vanszs/VansRouter
+support: https://github.com/Vanszs/VansRouter/issues
+port: 20130
+gallery:
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-vansrouter/gallery/1.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-vansrouter/gallery/2.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-vansrouter/gallery/3.jpg
+path: "/masuk"
+releaseNotes: ""
+defaultUsername: ""
+defaultPassword: ""
+deterministicPassword: true
+submitter: Srihari
+submission: https://github.com/cyberromeo/srihari-app-store-umbrel

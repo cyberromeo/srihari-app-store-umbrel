@@ -1,16 +1,17 @@
 # Srihari's — an Umbrel Community App Store
 
-This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications, the OmniRoute AI Gateway, and the Cronicle task scheduler as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
+This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications, two self-hosted AI gateways, and the Cronicle task scheduler as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
 
-| App            | Upstream                                                                  | Stack                              | Port  |
-|----------------|---------------------------------------------------------------------------|------------------------------------|-------|
-| **OmniRoute**  | [diegosouzapw/OmniRoute](https://github.com/diegosouzapw/OmniRoute) — TS  | OmniRoute + Redis                  | 20128 |
-| **Terminus**   | [usetrmnl/terminus](https://github.com/usetrmnl/terminus) — Ruby/Hanami   | Terminus + PostgreSQL + Valkey      | 2300  |
-| **LaraPaper**  | [usetrmnl/larapaper](https://github.com/usetrmnl/larapaper) — PHP/Laravel  | LaraPaper (bundled SQLite)         | 8080  |
-| **Inker**      | [usetrmnl/inker](https://github.com/usetrmnl/inker) — TypeScript/React    | Inker (bundled SQLite + Chromium)  | 8090  |
-| **Cronicle**   | [jhuckaby/Cronicle](https://github.com/jhuckaby/Cronicle) — Node.js       | Cronicle (bundled storage)         | 3012  |
+| App             | Upstream                                                                  | Stack                              | Port  |
+|-----------------|---------------------------------------------------------------------------|------------------------------------|-------|
+| **OmniRoute**   | [diegosouzapw/OmniRoute](https://github.com/diegosouzapw/OmniRoute) — TS  | OmniRoute + Redis                  | 20128 |
+| **VansRouter**  | [Vanszs/VansRouter](https://github.com/Vanszs/VansRouter) — JS/Next.js    | VansRouter (bundled SQLite) + Headroom | 20130 |
+| **Terminus**    | [usetrmnl/terminus](https://github.com/usetrmnl/terminus) — Ruby/Hanami   | Terminus + PostgreSQL + Valkey      | 2300  |
+| **LaraPaper**   | [usetrmnl/larapaper](https://github.com/usetrmnl/larapaper) — PHP/Laravel  | LaraPaper (bundled SQLite)         | 8080  |
+| **Inker**       | [usetrmnl/inker](https://github.com/usetrmnl/inker) — TypeScript/React    | Inker (bundled SQLite + Chromium)  | 8090  |
+| **Cronicle**    | [jhuckaby/Cronicle](https://github.com/jhuckaby/Cronicle) — Node.js       | Cronicle (bundled storage)         | 3012  |
 
-The TRMNL apps let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data, OmniRoute provides a powerful self-hosted AI gateway, and Cronicle schedules and runs jobs across one or more machines.
+The TRMNL apps let you manage [TRMNL](https://trmnl.com) e-ink display devices on your own network with full ownership of your data, OmniRoute and VansRouter put one endpoint in front of many AI providers, and Cronicle schedules and runs jobs across one or more machines.
 
 ## Add this app store to Umbrel
 
@@ -103,6 +104,41 @@ Upstream's `web` build profile also ships `chatgpt-web-codex-browser` and `codex
 
 ---
 
+## VansRouter
+
+The `trmnl-vansrouter` app is a second AI gateway — a fork of [9Router](https://github.com/decolua/9router) that also pulls in OmniRoute's routing logic. It runs alongside OmniRoute rather than replacing it; the two are independent installs with their own data.
+
+| Service    | Image                                     | Purpose                                                                 |
+|------------|-------------------------------------------|-------------------------------------------------------------------------|
+| `app`      | `ghcr.io/vanszs/vansrouter:0.91.21`       | Next.js dashboard **and** the OpenAI/Anthropic/Gemini-compatible API, both on container port `20128`. Bundled SQLite. |
+| `headroom` | `ghcr.io/chopratejas/headroom:0.6.0-slim` | Optional compression sidecar for Token Saver → Headroom.                 |
+
+Data is bind-mounted rather than kept in a named volume, so umbrelOS backs it up:
+- `${APP_DATA_DIR}/data/vansrouter` → `/app/data` (`db/data.sqlite`, the generated `jwt-secret` and `auth/api-key-secret`, certs, logs)
+
+**First-run setup:** open the app and sign in with the password umbrelOS shows on the app page, then change it under **Settings**. There is no username — login is password-only. The tile opens at `/masuk` (the app's login route) because VansRouter's `/` returns a JSON welcome payload rather than redirecting to the login page.
+
+**Using it from your editor:** create an API key under **Endpoint & Key**, then point your tools at `http://umbrel.local:20130/v1` with that key. The key is mandatory here even though a laptop install can go without one: VansRouter treats anything that is not a loopback caller as remote, and every request through Umbrel's proxy is remote by that definition.
+
+### Packaging notes
+
+Six packaging decisions worth knowing about, most of them forced by how VansRouter behaves behind a reverse proxy:
+
+- **Port `20130`, not `20128`.** VansRouter and OmniRoute both listen on `20128` internally, and umbrelOS host ports have to be unique. Only the `app_proxy` port moved; the container still listens on `20128`. `20130` is unused in the official app store.
+- **Umbrel auth off** (`PROXY_AUTH_ADD: "false"`), as with every other app here. The dashboard and the API share a single port, and with Umbrel auth on, a request without an umbrelOS session cookie is answered with a 302 to the login page. Coding agents can't carry that cookie, so they follow the redirect and get HTML instead of a completion — the API is unusable. `PROXY_AUTH_WHITELIST` can exempt individual path prefixes, but it isn't worth relying on when the whole point of the app is that arbitrary clients reach `/v1`. What still guards the app is VansRouter's own bcrypt password login with per-IP lockout, plus its API-key check on `/v1` — it treats every non-loopback caller as remote, and everything through the proxy is remote, so a key is mandatory.
+- **`INITIAL_PASSWORD` must be set.** VansRouter refuses a login that still uses its built-in `123456` when the request looks remote, and asks you to change it "from the local machine" — which, behind `app_proxy`, is nowhere. Left alone the app would be permanently unreachable. The compose file wires `INITIAL_PASSWORD` to Umbrel's per-install `${APP_PASSWORD}` and the manifest sets `deterministicPassword: true`, so umbrelOS generates and displays a unique password instead.
+- **Images are pinned by digest** as well as tag, following the official app-store rule. Upstream publishes bare version tags on GHCR (`0.91.21`, not `v0.91.21`) and nothing at all on Docker Hub, despite what its `DOCKER.md` says.
+- **Bind mount instead of a named volume**, so the SQLite database is inside `app-data` and covered by umbrelOS backups. Keeping the secrets in that directory rather than deriving them from the device seed is deliberate: it means a backup restored onto a different Umbrel keeps working with the API keys you already issued.
+- **No extra capabilities.** The image bundles `tailscaled` and would want `CAP_NET_ADMIN` for TUN mode. It isn't granted, and nothing is lost: the tunnel endpoints are unreachable anyway (see below).
+
+**What doesn't work in this packaging:** the built-in Cloudflare and Tailscale tunnels, the MCP endpoints, the Cursor/Kiro CLI auto-import, in-app password reset, and starting Headroom from the dashboard. VansRouter restricts those routes to loopback callers because they spawn host processes or read host secrets, and requests through `app_proxy` never qualify. Use umbrelOS's own remote access to reach the dashboard from outside your network. The in-app updater under Settings is best left alone too — it would patch a container filesystem that is discarded on the next restart; update through the umbrelOS App Store instead.
+
+The `headroom` sidecar is genuinely optional and idles until you switch it on. It is included because upstream's own compose file ships it and because the in-app installer is one of the loopback-only routes, so a sidecar is the only way to reach that feature from a browser. The headline RTK, Caveman and Ponytail savings work without it. Nothing else in the compose file references it, so deleting the service is enough if you'd rather not run it.
+
+**Configuration:** see [`trmnl-vansrouter/.env.example`](trmnl-vansrouter/.env.example). Anything in upstream's `.env.example` can be set there; `DATA_DIR`, `PORT`, `HOSTNAME`, `NODE_ENV` and `INITIAL_PASSWORD` are fixed by the package.
+
+---
+
 ## Cronicle
 
 The `trmnl-cronicle` app is a **single container**:
@@ -153,6 +189,11 @@ from real UI captures its maintainers attached to
 filed against; that band was cut out so the nav sits directly above the page
 content. The permanent notices on those pages are left as they are.
 
+VansRouter publishes exactly one screenshot (`images/9router.png`), so its three
+cards are the full Providers page plus two tighter crops of it at different zoom
+levels. Crop edges land in the gutters between provider cards so none is sliced
+in half.
+
 ---
 
 ## Source
@@ -161,6 +202,7 @@ content. The permanent notices on those pages are left as they are.
 - LaraPaper upstream: https://github.com/usetrmnl/larapaper — MIT
 - Inker upstream: https://github.com/usetrmnl/inker — AGPL-3.0
 - OmniRoute upstream: https://github.com/diegosouzapw/OmniRoute — MIT
+- VansRouter upstream: https://github.com/Vanszs/VansRouter — MIT (a fork of [decolua/9router](https://github.com/decolua/9router); the optional sidecar is [chopratejas/headroom](https://github.com/chopratejas/headroom))
 - Cronicle upstream: https://github.com/jhuckaby/Cronicle — MIT (packaged image: [soulteary/docker-cronicle](https://github.com/soulteary/docker-cronicle))
 
 This packaging repo is unaffiliated with the upstream maintainers; it only wraps their published container images for Umbrel.

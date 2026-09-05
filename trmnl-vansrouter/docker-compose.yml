@@ -1,0 +1,87 @@
+version: "3.7"
+
+services:
+
+  app_proxy:
+    environment:
+      # <app-id>_<docker-service-name>_1 — Umbrel's injected container name.
+      APP_HOST: trmnl-vansrouter_app_1
+      APP_PORT: 20128
+      # Umbrel auth off, as with every other app in this store. The dashboard and
+      # the OpenAI/Anthropic/Gemini-compatible API share one port here, and with
+      # Umbrel auth on, any request without an Umbrel session cookie is answered
+      # with a 302 to the umbrelOS login page. Coding agents cannot carry that
+      # cookie, so they follow the redirect and get HTML back instead of a
+      # completion — the API is unusable.
+      #
+      # What still guards the app: VansRouter's own password login (bcrypt, with
+      # per-IP lockout) on the dashboard, and its API-key check on /v1. It treats
+      # anything that is not a loopback caller as remote, and every request
+      # arriving through this proxy is remote, so a key from Endpoint & Key is
+      # mandatory — the keyless-remote opt-in defaults to off.
+      PROXY_AUTH_ADD: "false"
+
+  app:
+    image: ghcr.io/vanszs/vansrouter:0.91.21@sha256:9aa074a73bb96f6c064a89cf53184dda9c863e751dd495fe2e0b8049a00d67ca
+    restart: on-failure
+    # The app forks child processes (the MITM helper, tunnel and Headroom
+    # managers), so it needs a real init to reap them.
+    init: true
+    # Give in-flight streaming responses time to drain on stop/update.
+    stop_grace_period: 30s
+    # No depends_on for `headroom`: the app probes it lazily, per request, so it
+    # neither needs it at boot nor should fail to start without it.
+    # Optional user overrides. Any variable documented in upstream's
+    # .env.example can be set here; see .env.example in this directory.
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # --- Packaging invariants (deliberately not overridable via .env) -------
+      # SQLite database, generated JWT/API-key secrets, certs and logs.
+      DATA_DIR: /app/data
+      # app_proxy fronts this port; changing it would break APP_PORT above.
+      PORT: "20128"
+      HOSTNAME: "0.0.0.0"
+      NODE_ENV: production
+      # Initial dashboard password, shown to the user by umbrelOS via
+      # `deterministicPassword: true`. This MUST be set: behind a reverse proxy
+      # VansRouter refuses a login that still uses its built-in default
+      # (src/app/api/auth/login/route.js), which would lock the app out
+      # entirely. Once the user changes the password in-app, the stored hash
+      # wins and this value is ignored.
+      INITIAL_PASSWORD: ${APP_PASSWORD}
+
+      # --- Overridable defaults ----------------------------------------------
+      TZ: ${TZ:-UTC}
+      # Used by background sync jobs that need this instance's own URL.
+      BASE_URL: http://${DEVICE_DOMAIN_NAME}:${APP_PROXY_PORT}
+      HEADROOM_URL: ${HEADROOM_URL:-http://headroom:8787}
+      # Remote /v1 calls already require an API key. Set true to also require
+      # one for calls originating inside the container.
+      REQUIRE_API_KEY: ${REQUIRE_API_KEY:-false}
+      # Extra hostnames trusted for public /v1 access, e.g. a tunnel domain.
+      PUBLIC_API_HOSTS: ${PUBLIC_API_HOSTS:-}
+    volumes:
+      # Everything durable lives here: db/data.sqlite plus the auto-generated
+      # jwt-secret and auth/api-key-secret. The image's entrypoint chowns this
+      # to its `node` user, so no explicit `user:` is needed.
+      - ${APP_DATA_DIR}/data/vansrouter:/app/data
+    healthcheck:
+      # /api/health is unauthenticated (PUBLIC_API_PATHS) and always 200.
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:20128/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+  # Optional compression sidecar, shipped because upstream's own compose file
+  # does and because it is the only way to reach Token Saver → Headroom from the
+  # browser: the in-app installer is one of the host-command routes Umbrel's
+  # proxy blocks. It idles until you switch it on in the dashboard, and the RTK,
+  # Caveman and Ponytail savings work without it. Safe to delete outright if you
+  # would rather not run it — nothing else references it.
+  headroom:
+    image: ghcr.io/chopratejas/headroom:0.6.0-slim@sha256:84c95da565745675f37c6d8fc5892f8322b108ae388ac1d3092040859b9dae3e
+    restart: on-failure
+    init: true
