@@ -3,7 +3,7 @@ id: trmnl-terminus
 name: Terminus
 tagline: Self-hosted TRMNL device server — own your e-ink display cloud
 icon: https://raw.githubusercontent.com/usetrmnl/terminus/0.72.0/app/assets/images/logos/apple.png
-category: Automation
+category: automation
 version: "0.72.0"
 port: 2300
 description: >-

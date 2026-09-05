@@ -3,7 +3,7 @@ id: trmnl-inker
 name: Inker
 tagline: Self-hosted e-ink device manager with drag-and-drop screen designer
 icon: https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-inker/icon.svg
-category: Automation
+category: automation
 version: "0.6.0"
 port: 8090
 description: >-

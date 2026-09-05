@@ -3,7 +3,7 @@ id: trmnl-omniroute
 name: OmniRoute
 tagline: The Free AI Gateway
 icon: https://raw.githubusercontent.com/diegosouzapw/OmniRoute/v3.8.50/public/apple-touch-icon.svg
-category: Automation
+category: ai
 version: "3.8.50"
 port: 20128
 description: >-

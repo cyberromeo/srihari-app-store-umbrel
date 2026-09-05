@@ -3,7 +3,7 @@ id: trmnl-cronicle
 name: Cronicle
 tagline: Distributed task scheduler and runner with web UI
 icon: https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-cronicle/icon.png
-category: Automation
+category: automation
 version: "0.9.81"
 port: 3012
 description: >-

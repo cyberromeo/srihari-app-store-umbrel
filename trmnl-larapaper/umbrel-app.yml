@@ -3,7 +3,7 @@ id: trmnl-larapaper
 name: LaraPaper
 tagline: Self-hosted TRMNL server with recipe support (PHP/Laravel)
 icon: https://raw.githubusercontent.com/usetrmnl/larapaper/0.41.0/public/mirror/assets/apple-touch-icon-180x180.png
-category: Automation
+category: automation
 version: "0.41.0"
 port: 8080
 description: >-
