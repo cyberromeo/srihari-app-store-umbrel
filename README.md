@@ -144,10 +144,14 @@ tile. Where a project's own logo is transparent or circular, it is composited
 onto a rounded tile and committed here; otherwise the manifest links the
 project's own icon at a pinned tag.
 
-Terminus is the one app without gallery cards. Its upstream repo publishes no
-UI screenshots, so its `gallery:` still points at TRMNL marketing and
-third-party blog images. Replacing them needs a screenshot from a running
-Terminus instance.
+Terminus publishes no screenshots in its own repo, so its three cards are built
+from real UI captures its maintainers attached to
+[#332](https://github.com/usetrmnl/terminus/issues/332),
+[#324](https://github.com/usetrmnl/terminus/issues/324) and
+[#288](https://github.com/usetrmnl/terminus/issues/288). One had a transient
+"Serverless transforms are not supported yet." error toast from the bug it was
+filed against; that band was cut out so the nav sits directly above the page
+content. The permanent notices on those pages are left as they are.
 
 ---
 

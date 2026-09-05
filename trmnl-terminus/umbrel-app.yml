@@ -21,9 +21,9 @@ submission: https://github.com/psrih/umbrel-terminus
 repo: https://github.com/usetrmnl/terminus
 support: https://github.com/usetrmnl/terminus/issues
 gallery:
-  - https://trmnl.com/assets/og/framework-a6b63bee.png
-  - https://wbrowar.us-east-1.linodeobjects.com/article/featured/_800x418_crop_center-center_82_none/trmnl-fuji-schedule.jpeg?mtime=1741805850
-  - https://i0.wp.com/notenoughtech.com/wp-content/uploads/2025/09/TRMNL-5.jpg?resize=696%2C372&ssl=1
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-terminus/gallery/1.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-terminus/gallery/2.jpg
+  - https://raw.githubusercontent.com/cyberromeo/srihari-app-store-umbrel/main/trmnl-terminus/gallery/3.jpg
 releaseNotes: >-
   Updated Terminus to v0.72.0 (ghcr.io/usetrmnl/terminus:0.72.0), five releases on from 0.67.0.
 
