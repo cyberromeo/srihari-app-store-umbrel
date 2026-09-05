@@ -10,7 +10,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   app:
-    image: ghcr.io/usetrmnl/larapaper:latest
+    image: ghcr.io/usetrmnl/larapaper:0.41.0
     restart: unless-stopped
     environment:
       # Laravel encryption key. Format MUST be base64: + 32 random bytes
@@ -45,13 +45,14 @@ services:
     volumes:
       # SQLite database + migrations state lives here.
       - database:/var/www/html/database/storage
-      # Default assets, including the scheduled-sleep image. This lets a custom
-      # storage/app/public/images/sleep.png survive container upgrades.
+      # Default assets, including the scheduled-sleep image. Keeping this a named
+      # volume means the shipped defaults are seeded on first run and a custom
+      # sleep.png survives container upgrades. To swap the sleep screen, copy the
+      # file in: docker cp sleep.png trmnl-larapaper_app_1:/var/www/html/storage/app/public/images/sleep.png
+      # (a bind mount here would hide the shipped defaults behind an empty dir).
       - image_assets:/var/www/html/storage/app/public/images
       # Generated screen images cache.
       - storage:/var/www/html/storage/app/public/images/generated
-      # Custom scheduled-sleep screen, managed from Umbrel app data.
-      - ${APP_DATA_DIR}/images:/var/www/html/storage/app/public/images
     healthcheck:
       test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/ || exit 1"]
       interval: 30s

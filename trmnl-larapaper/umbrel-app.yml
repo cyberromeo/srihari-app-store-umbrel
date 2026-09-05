@@ -2,9 +2,9 @@ manifestVersion: 1
 id: trmnl-larapaper
 name: LaraPaper
 tagline: Self-hosted TRMNL server with recipe support (PHP/Laravel)
-icon: https://trmnl.com/images/brand/icons/icon--black.svg
+icon: https://raw.githubusercontent.com/usetrmnl/larapaper/0.41.0/public/mirror/assets/apple-touch-icon-180x180.png
 category: Automation
-version: "0.39.1"
+version: "0.41.0"
 port: 8080
 description: >-
   LaraPaper is a self-hostable, community-driven TRMNL server (BYOS) built with PHP/Laravel. It manages TRMNL e-ink display devices and generates screens via native plugins, 150+ community recipes, 700+ TRMNL catalog recipes, raw markup, or the API. It can also act as a proxy for the native TRMNL cloud service (Core) for hybrid setups.
@@ -25,7 +25,13 @@ gallery:
   - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-screenshot-dark.png
   - https://raw.githubusercontent.com/usetrmnl/larapaper/main/README_byos-devices.jpeg
 releaseNotes: >-
-  Initial Umbrel Community App Store packaging of LaraPaper 0.39.0 (single container, bundled SQLite, auto-migrating).
+  Updated LaraPaper to 0.41.0 (ghcr.io/usetrmnl/larapaper:0.41.0), covering the 0.40.0 and 0.41.0 releases.
+
+
+  0.41.0 reworks navigation with crosslinks and callouts, and adds map support via TRMNL Framework 3.3.1. The container base is refreshed to PHP 8.4.24, Chromium 152.0.7977.64 and ImageMagick 7.1.2-30.
+
+
+  0.40.0 was LaraPaper's 100th release: OTA firmware and touchbar history for TRMNL X, device pause with a custom duration (holiday mode), an initial MCP server as a Lab feature, a lat_lon config field type, install-from-catalog without closing the modal, persistent device auto-join, and a new app logo. Fixes cover device preview rotation on dashboards and multi-day iCal events.
 dependencies: []
 path: ""
 defaultUsername: "admin@example.com"
