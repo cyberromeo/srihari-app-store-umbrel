@@ -2,9 +2,9 @@ manifestVersion: 1
 id: trmnl-terminus
 name: Terminus
 tagline: Self-hosted TRMNL device server — own your e-ink display cloud
-icon: https://trmnl.com/images/brand/icons/icon--black.svg
+icon: https://raw.githubusercontent.com/usetrmnl/terminus/0.72.0/app/assets/images/logos/apple.png
 category: Automation
-version: "0.67.0"
+version: "0.72.0"
 port: 2300
 description: >-
   Terminus is the flagship TRMNL Build-Your-Own-Server (BYOS) application — a Ruby/Hanami web server that lets you manage TRMNL e-ink display devices on your own local network or hosted cloud.
@@ -25,7 +25,13 @@ gallery:
   - https://wbrowar.us-east-1.linodeobjects.com/article/featured/_800x418_crop_center-center_82_none/trmnl-fuji-schedule.jpeg?mtime=1741805850
   - https://i0.wp.com/notenoughtech.com/wp-content/uploads/2025/09/TRMNL-5.jpg?resize=696%2C372&ssl=1
 releaseNotes: >-
-  Updated Terminus to v0.67.0 (ghcr.io/usetrmnl/terminus:0.67.0). Includes support for device button hardware commands, UI template source linking in log inspector, and updated runtime dependencies.
+  Updated Terminus to v0.72.0 (ghcr.io/usetrmnl/terminus:0.72.0), five releases on from 0.67.0.
+
+
+  New: export and import designs as zip files to share screen templates with others; localization of UI text, dates and times for 25+ languages, falling back to English for missing keys; screens now cross-link to the extension and template that produced them; Liquid syntax is accepted in extension exchange URIs, headers and request bodies, with a code editor for templates.
+
+
+  Fixes and upkeep: SVG circle, ellipse and line sanitization no longer strips Y coordinates; atomic screen upserts; firmware and screen attachment handling; TRMNL API 0.20.0, which adds firmware flashes; Rodauth 2.45.0 and Node 26.7.0. The bundled database moves from postgres:18.4-alpine to 18.6-alpine, matching upstream.
 dependencies: []
 path: ""
 defaultUsername: ""
