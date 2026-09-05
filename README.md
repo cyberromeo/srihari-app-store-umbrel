@@ -1,4 +1,4 @@
-# Srihari's app store — an Umbrel Community App Store
+# Srihari's — an Umbrel Community App Store
 
 This repository packages three TRMNL Build-Your-Own-Server (BYOS) applications, the OmniRoute AI Gateway, and the Cronicle task scheduler as an [Umbrel Community App Store](https://github.com/getumbrel/umbrel-community-app-store):
 
